@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module cu_distributor(input [25:0] uCode,
-                      output logic cu_inc_pc,
+                      output logic cu_pc_wr_en,
                       output logic cu_const8_en,
                       output logic cu_const8_h_sel,
                       output logic cu_rf_regw_en,
@@ -11,7 +11,7 @@ module cu_distributor(input [25:0] uCode,
                       output logic [15:0] cu_remain);
     
     always_comb begin
-        cu_inc_pc           <= uCode[0];
+        cu_pc_wr_en         <= uCode[0];
         cu_const8_en        <= uCode[1];
         cu_const8_h_sel     <= uCode[2];
         cu_rf_regw_en       <= uCode[3];

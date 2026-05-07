@@ -5,7 +5,7 @@ module cu(input clk,
           input [15:0] instruction_word,
           output logic [7:0] cmd_const8,
           output logic [2:0] cu_reg1,
-          output logic cu_inc_pc,
+          output logic cu_pc_wr_en,
           output logic cu_const8_en,
           output logic cu_const8_h_sel,
           output logic cu_rf_regw_en,
@@ -30,11 +30,11 @@ module cu(input clk,
                                 .cmd_const8(cmd_const8),
                                 .cu_reg1(cu_reg1));
                                 
-     cu_u_rom u_rom (.u_address(uAddress),
-                   .u_data(uData));
+     cu_u_rom u_rom (.u_address({6'b00_0000, uAddress, uState}),
+                     .u_data(uData));
                    
      cu_distributor distributer (.uCode(uData[31:6]),
-                                 .cu_inc_pc(cu_inc_pc),
+                                 .cu_pc_wr_en(cu_pc_wr_en),
                                  .cu_const8_en(cu_const8_en),
                                  .cu_const8_h_sel(cu_const8_h_sel),
                                  .cu_rf_regw_en(cu_rf_regw_en),

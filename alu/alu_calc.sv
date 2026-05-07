@@ -11,6 +11,7 @@ module alu_calc
     always_comb begin
         case(opcode)
             3'b000: { overflow, calc_result} = (acc + isb);
+            3'b001: { overflow, calc_result} = (acc - isb);
             default: calc_result = 'b0;
         endcase
     end
