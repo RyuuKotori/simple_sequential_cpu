@@ -12,7 +12,8 @@ module cu(input clk,
           output logic cu_rf_regr_en,
           output logic [2:0] cu_alu_cmd,
           output logic cu_alu_result_en,
-          output logic [15:0] cu_remain);
+          output logic cu_idb_to_pc,
+          output logic [14:0] cu_remain);
           
     logic [1:0] uState;
     logic [7:0] uAddress;
@@ -41,6 +42,7 @@ module cu(input clk,
                                  .cu_rf_regr_en(cu_rf_regr_en),
                                  .cu_alu_cmd(cu_alu_cmd),
                                  .cu_alu_result_en(cu_alu_result_en),
+                                 .cu_idb_to_pc(cu_idb_to_pc),
                                  .cu_remain(cu_remain));
      
 endmodule

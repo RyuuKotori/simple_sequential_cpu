@@ -8,7 +8,7 @@ module rf(input clk,
           input cu_const8_h_sel,
           input cu_rf_regw_en,
           input cu_rf_regr_en,
-          output logic [15:0] idb,
+          inout logic [15:0] idb,
           output logic [15:0] acc,
           output logic [15:0] mar,
           output logic [15:0] mdr,
@@ -18,55 +18,32 @@ module rf(input clk,
           output logic [15:0] r4,
           output logic [15:0] r5);
           
-    logic [15:0] rf_idb;
+    logic [15:0] rf_idb_last;
     
-    re_ff rf_acc (.clk(clk),
+    re_ff rf_last (.clk(clk),
+                   .reset(reset),
+                   .d(idb),
+                   .q(rf_idb_last));
+                      
+    rf_const_wr const_wr (.const8(cu_const8),
+                          .last_idb(rf_idb_last),
+                          .cu_const8_en(cu_const8_en),
+                          .cu_const8_h_sel(cu_const8_h_sel),
+                          .idb(idb));
+                          
+    rf_memory mem (.clk(clk),
                   .reset(reset),
-                  .en(),
-                  .d(rf_idb),
-                  .q(acc));
-                  
-    re_ff rf_mar (.clk(clk),
-                  .reset(reset),
-                  .en(),
-                  .d(rf_idb),
-                  .q(mar));
-                  
-    re_ff rf_mdr (.clk(clk),
-                  .reset(reset),
-                  .en(),
-                  .d(rf_idb),
-                  .q(mdr));
-                  
-    re_ff rf_r1  (.clk(clk),
-                  .reset(reset),
-                  .en(),
-                  .d(rf_idb),
-                  .q(r1));
-                  
-    re_ff rf_r2  (.clk(clk),
-                  .reset(reset),
-                  .en(),
-                  .d(rf_idb),
-                  .q(r2));
-                  
-    re_ff rf_r3  (.clk(clk),
-                  .reset(reset),
-                  .en(),
-                  .d(rf_idb),
-                  .q(r3));
-                  
-    re_ff rf_r4  (.clk(clk),
-                  .reset(reset),
-                  .en(),
-                  .d(rf_idb),
-                  .q(r4));
-                  
-    re_ff rf_r5  (.clk(clk),
-                  .reset(reset),
-                  .en(),
-                  .d(rf_idb),
-                  .q(r5));
-    
-    assign idb = rf_idb;
+                  .cu_reg1(cu_reg1),
+                  .cu_rf_regw_en(cu_rf_regr_en),
+                  .cu_rf_regr_en(cu_rf_regr_en),
+                  .idb_in(idb),
+                  .idb_out(idb),
+                  .acc(acc),
+                  .mar(mar),
+                  .mdr(mdr),
+                  .r1(r1),
+                  .r2(r2),
+                  .r3(r3),
+                  .r4(r4),
+                  .r5(r5));
 endmodule
